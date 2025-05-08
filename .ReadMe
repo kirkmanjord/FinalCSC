@@ -1,1 +1,45 @@
 You must download the csv from the kaggle dataset to run the https://www.kaggle.com/datasets/eoinamoore/historical-nba-data-and-player-box-scores
+When using our sql server use these queries instead of importing csv (note that this is a mySQL server that has to be turned on to be accessed):
+SELECT
+    personId,
+    height
+FROM players;
+
+SELECT
+    ps.personId,
+    p.firstName,
+    p.lastName,
+    ps.gameId,
+    g.gameDate,
+    l.gameDateTimeEst,
+    l.gameSubtype,
+    th.teamName AS playerTeamName,
+    CASE
+        WHEN g.hometeamId = ps.teamId THEN 'home'
+        WHEN g.awayteamId = ps.teamId THEN 'away'
+        ELSE 'unknown'
+    END AS home_away,
+    ps.numMinutes,
+    ps.points,
+    ps.assists,
+    ps.blocks,
+    ps.steals,
+    ps.fieldGoalsAttempted,
+    ps.fieldGoalsMade,
+    ps.fieldGoalsPercentage,
+    ps.threePointersAttempted,
+    ps.threePointersMade,
+    ps.threePointersPercentage,
+    ps.freeThrowsAttempted,
+    ps.freeThrowsMade,
+    ps.freeThrowsPercentage,
+    ps.reboundsDefensive,
+    ps.reboundsOffensive,
+    ps.reboundsTotal,
+    ps.foulsPersonal,
+    ps.turnovers
+FROM playerstatistics ps
+JOIN players p ON ps.personId = p.personId
+JOIN games g ON ps.gameId = g.gameId
+JOIN leagueschedule24_25 l ON ps.gameId = l.gameId
+JOIN teamhistories th ON ps.teamId = th.teamId;
