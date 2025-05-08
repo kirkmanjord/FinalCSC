@@ -1,0 +1,15 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+
+# Virtual envs
+venv/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Big data
+*.csv
+*.pkl
